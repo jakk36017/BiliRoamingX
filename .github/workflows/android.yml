@@ -21,10 +21,9 @@ jobs:
           fetch-depth: 0
           submodules: 'recursive'
 
-      # 添加步骤来设置 gradlew 脚本的执行权限
       - name: Set execution permission for gradlew
         run: chmod +x ./gradlew
-
+      
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
