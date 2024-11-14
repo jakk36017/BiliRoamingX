@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - 1.24.1
     paths-ignore:
       - '**.md'
       - '.github/**'
@@ -37,6 +37,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+      
       - name: Retrieve version
         run: |
           version=`awk -F "=" '$1 == "version" {print $2}' gradle.properties`
