@@ -38,11 +38,11 @@ jobs:
 
       - name: Make gradlew executable
         run: chmod +x gradlew
-
+      
       - name: Retrieve version
         run: |
-          version=$(awk -F "=" '/^version/ {print $2}' gradle.properties)
-          commit_count=$(git rev-list HEAD --count)
+          version=`awk -F "=" '$1 == "version" {print $2}' gradle.properties`
+          commit_count=`git rev-list HEAD --count`
           version="${version}.r${commit_count}"
           echo "VERSION=$version" >> $GITHUB_ENV
 
@@ -56,4 +56,4 @@ jobs:
         if: success()
         with:
           name: BiliRoamingX-${{ env.VERSION }}
-          path: 'build/libs' # Assuming your build artifacts are in build/libs
+          path: 'build'
