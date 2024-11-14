@@ -37,9 +37,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Make gradlew executable
-        run: chmod +x gradlew
-      
       - name: Retrieve version
         run: |
           version=`awk -F "=" '$1 == "version" {print $2}' gradle.properties`
