@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - 1.23.2
     paths-ignore:
       - '**.md'
       - '.github/**'
@@ -19,7 +19,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          submodules: 'recursive'
 
       - name: Set up JDK
         uses: actions/setup-java@v4
@@ -37,10 +36,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
       - name: Retrieve version
         run: |
-          version=`awk -F "=" '$1 == "version" {print $2}' gradle.properties`
-          commit_count=`git rev-list HEAD --count`
+          version=$(awk -F "=" '/^version/ {print $2}' gradle.properties)
+          commit_count=$(git rev-list HEAD --count)
           version="${version}.r${commit_count}"
           echo "VERSION=$version" >> $GITHUB_ENV
 
@@ -54,4 +56,4 @@ jobs:
         if: success()
         with:
           name: BiliRoamingX-${{ env.VERSION }}
-          path: 'build'
+          path: 'build/libs' # Assuming your build artifacts are in build/libs
